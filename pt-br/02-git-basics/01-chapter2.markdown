@@ -1049,59 +1049,59 @@ Se você tem muitas tags que você quer enviar de uma vez, você pode ainda usar
 
 Agora, quando outro alguém colnar ou baixar do seu repositório, ele pegará todas as suas tags também.
 
-## Tips and Tricks ##
+## Dicas e Truques ##
 
-Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
+Antes de nós finalizarmos este capítulo de Git básico, algumas pequenas dicas e truques podem fazer sua experiência com Git um bit mais simples, mais fácil, ou mais familiar. Muitas pessoas usam Git sem usar qualquer dessas dicas, e nós não vamos nos referir a elas ou assumir que você as usa depois no livro; mas você provavelmente deve saber como usa-las.
 
-### Auto-Completion ###
+### Auto-Complettar ###
 
-If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
+Se você usa o shell Bash, Git vem com um lindo script de auto-completar habilitado para você. Baixe os fontes do Git, e olhe no diretório `contrib/completion`; deve ter um arquivo chamado `git-completion.bash`. Copie este arquivo no seu diretório home, e adicione-o ao seu arquivo `.bashrc`
 
 	source ~/.git-completion.bash
 
-If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
+Se você quer definir que Git tenha automaticamente auto-completar para todos os usuários, copie este script para o diretório `/opt/local/etc/bash_completion.d` em sistemas Mac ou para o diretório `/etc/bash_completion.d/` em sistemas Linux. Este é o diretório de scripts que o Bash automaticamente carrega para prover este recurso.
 
-If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
+Se você está usando Windows com Git Bash, que é a instalação padrão do Git no Windows com msysGit, o auto-completar deve estar pré-configurado.
 
-Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
+Pressione a tecla Tab quando você estiver escrevendo comando Git, e ele deve retornar uma série de sugestões para você escolher:
 
 	$ git co<tab><tab>
 	commit config
 
-In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
+Neste caso, digitando git co e então pressionando a tecla Tab duas vezes ele sugere commit e config. Adicionando `m<tab>` completa `git commit` automaticamente.
 
-This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
+Isso ainda funciona com opções, que é provavelmente mais útil. Por exemplo, se você está executando um comando `git log` e não lembra uma das opções, você pode comecar digitando-a e pressionar a tecla Tab para ver o que casa:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
-That’s a pretty nice trick and may save you some time and documentation reading.
+É um truque muito bom e pode te economizar algum tempo e leitura de documentação.
 
-### Git Aliases ###
+### Apelidos Git ###
 
-Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
+Git não infere seus comandos se você digitá-lo parcialmente. Se vocẽ não quer digitat o texto inteiro de cada um dos comandos do Git, você pode facilmente definir um apelido para cada comando usando `git config`. Aqui está alguns dos exemplos que você pode querer definir:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
+Isso significa que, por exemplo, em vez de digitar `git commit`, você simplesmente precisa digitar `git ci`. Quando vocẽ esiver usando Git, vocẽ provavelmente usará outros comandos frequentemente também; neste caso, não hexite em criar novos apelidos.
 
-This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
+Esta técnica pode ainda ser útil na criação de comandos que você acha que deve existir. Por exemplo, para corrigit um problema de usabilidade que você encontrou com o comando para tirar um arquivo do stage, você pode adicionar seu próprio apelido ao comando do Git:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
-This makes the following two commands equivalent:
+Isso torna os dois comandos seguintes equivalentes:
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-This seems a bit clearer. It’s also common to add a `last` command, like this:
+Isso parece um bit mais claro. É ainda comum, adicionar um comando last, como este:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
-This way, you can see the last commit easily:
+Com isso, você pode ver os último commit facilmente.
 
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1112,10 +1112,10 @@ This way, you can see the last commit easily:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
+Como você pode dizer, Git simplesmente substitui o novo comando com o apelido que você der para ele. No entanto, talvez você queira executar um comando externo, em vez de um subcomando do Git. Nesse caso, você inicia o comando com um caracter `!`. Isso é útil se você escrever suas próprias ferramentas que trabalham com um repositório Git. Podemos demonstrar, através do apelido `git visual` para executar `gitk`:
 
 	$ git config --global alias.visual "!gitk"
 
-## Summary ##
+## Resumo ##
 
-At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
+Neste ponto, você pode fazer todas as operações básicas do Git local - criar ou clonar um repositório, fazer alterações, staging e commit dessas mudanças, e visualizar o histórico de todas as mudanças que o repositório tem recebido. A seguir, vamos cobrir um excelente recurso do Git: seu modelo de ramificação (branches).
