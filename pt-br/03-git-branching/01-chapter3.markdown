@@ -8,7 +8,7 @@ Algumas pessoas se referem ao modelo de ramificação em Git como sua caracterí
 
 Para compreender realmente a forma como o Git cria branches, precisamos dar um passo atrás e examinar como o Git armazena seus dados. Como você pode se lembrar do capítulo 1, o Git não armazena dados como uma série de mudanças ou deltas, mas sim como uma série de snapshots.
 
-Quando você faz um commit no Git, o Git guarda um objeto commit que contém um ponteiro para o snapshot do conteúdo que você colocou na área de seleção, o autor e os metadados da mensagen, zero ou mais ponteiros para o commit ou commits que são pais deste commit: nenhum pai para o commit inicial, um pai para um commit normal e múltiplos pais para commits que resultem de um merge de dois ou mais branches.
+Quando você faz um commit no Git, o Git guarda um objeto commit que contém um ponteiro para o snapshot do conteúdo que você colocou na área de seleção, o autor e os metadados da mensagem, zero ou mais ponteiros para o commit ou commits que são pais deste commit: nenhum pai para o commit inicial, um pai para um commit normal e múltiplos pais para commits que resultem de um merge de dois ou mais branches.
 
 Para visualizar isso, vamos supor que você tenha um diretório contendo três arquivos, e colocou todos eles na área de seleção e fez o commit. Colocar na área de seleção cria o checksum de cada arquivo (o hash SHA-1 que nos referimos no capítulo 1), armazena esta versão do arquivo no repositório Git (o Git se refere a eles como blobs), e acrescenta este checksum à área de seleção (staging area):
 
@@ -144,7 +144,7 @@ No entanto, antes de fazer isso, note que seu diretório de trabalho ou área de
 	$ git checkout master
 	Switched to branch "master"
 
-Nesse ponto, o diretório do seu projeto está exatamente do jeito que estava antes de você começar a trabalhar na tarefa #53, e você se concentra na correção do erro. É importante lembrar desse ponto: Git restabelece seu diretório de trabalho para ficar igual ao snapshot do commit que o branch que você criou aponta. Ele adiciona, remove, e modifica arquivos automaticamente para garantir que sua cópia é o que o branch parecia no seu último commit nele.
+Nesse ponto, o diretório do seu projeto está exatamente do jeito que estava antes de você começar a trabalhar na tarefa #53, e você se concentra na correção do erro. É importante lembrar desse ponto: Git reestabelece seu diretório de trabalho para ficar igual ao snapshot do commit que o branch que você criou aponta. Ele adiciona, remove, e modifica arquivos automaticamente para garantir que sua cópia é o que o branch parecia no seu último commit nele.
 
 Em seguida, você tem uma correção para fazer. Vamos criar um branch para a correção (hotfix) para trabalhar até a conclusão (veja Figura 3-13):
 
@@ -167,7 +167,7 @@ Você pode rodar seus testes, tenha certeza que a correção é o que você quer
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-Você irá notar a frase "Fast forward" no merge. Em razão do branch que você fez o merge apontar para o commit que está diretamente acima do commit que você se encontra, Git avança o ponteiro adiante. Em outras palavras, quando você tenta fazer o merge de um commit com outro que pode ser alcançado seguindo o histórico do primeiro, Git simplifica as coisas movendo o ponteiro adiante porque não existe modificações divergente para fazer o merge because — isso é chamado de "fast forward".
+Você irá notar a frase "Fast forward" no merge. Em razão do branch que você fez o merge apontar para o commit que está diretamente acima do commit que você se encontra, Git avança o ponteiro adiante. Em outras palavras, quando você tenta fazer o merge de um commit com outro que pode ser alcançado seguindo o histórico do primeiro, Git simplifica as coisas movendo o ponteiro adiante porque não existe modificações divergente para fazer o merge — isso é chamado de "fast forward".
 
 Sua modificação está agora na snapshot do commit apontado pelo branch `master`, e você pode fazer o deploy (veja Figura 3-14).
 
@@ -179,7 +179,7 @@ Depois que a sua super importante correção foi enviada, você está pronto par
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
 
-Agora você pode voltar para o trabalho incompleto no branch da tafera #53 e continuar a trabalhar nele (veja Figura 3-15):
+Agora você pode voltar para o trabalho incompleto no branch da tarefa #53 e continuar a trabalhar nele (veja Figura 3-15):
 
 	$ git checkout iss53
 	Switched to branch "iss53"
@@ -341,9 +341,9 @@ Agora que você sabe o básico sobre criação e merge de branches, o que você 
 
 ### Branches de longa duração ###
 
-Por o Git usar um merge de três vias, fazer o merge de um branch em outro várias vezes em um período longo é geralmente fácil de fazer. Isto significa que você pode ter vários branches que ficam sempre abertos e que são usados em diferentes estágios do seu ciclo de desenvolvimento; você pode regularmente fazer o merge de alguns deles em outros.
+Por o Git usar um merge de três vias, fazer o merge de um branch em outro várias vezes em um período longo é geralmente fácil. Isto significa que você pode ter vários branches que ficam sempre abertos e que são usados em diferentes estágios do seu ciclo de desenvolvimento; você pode regularmente fazer o merge de alguns deles em outros.
 
-Muitos desenvolvedores Git tem um fluxo de trabalho que adotam essa abordagem, como ter somente código completamente estável em seus branches `master` — possivelmente somente código que já foi ou será liberado. Eles têm outro branch paralelo chamado develop ou algo parecido em que eles trabalham ou usam para testar estabilidade — ele não é necessariamente sempre estável, mas quando ele chega a tal estágio, pode ser feito o merge com o branch `master`. Ele é usado para puxar (pull) branches tópicos (topic, branches de curta duração, como o seu branch `iss53` anteriormente) quando eles estão prontos, para ter certeza que eles passam em todos os testes e não acresentam erros.
+Muitos desenvolvedores Git tem um fluxo de trabalho que adotam essa abordagem, como ter somente código completamente estável em seus branches `master` — possivelmente somente código que já foi ou será liberado. Eles têm outro branch paralelo chamado develop ou algo parecido em que eles trabalham ou usam para testar estabilidade — ele não é necessariamente sempre estável, mas quando ele chega a tal estágio, pode ser feito o merge com o branch `master`. Ele é usado para puxar (pull) branches tópicos (topic branches, de curta duração, como o seu branch `iss53` anteriormente) quando eles estão prontos, para ter certeza que eles passam em todos os testes e não acrescentam erros.
 
 Na realidade, nós estamos falando de ponteiros avançando na linha de commits que você está fazendo. Os branches estáveis estão muito atrás na linha histórica de commits, e os branches de ponta (que estão sendo trabalhados) estão a frente no histórico (veja Figura 3-18).
 
@@ -355,19 +355,19 @@ Normalmente é mais fácil pensar neles como um contêiner de trabalho, onde con
 Insert 18333fig0319.png 
 Figura 3-19. Pode ser mais útil pensar em seus branches como contêineres.
 
-Você pode continuar fazendo isso em vários níveis de estabilidade. Alguns projetos grandes podem ter um branch 'sugerido' (`proposed`) ou 'sugestões atualizadas' (`pu`, proposed updates) que contém outros branches integrados que podem não estar prontos para ir para o próximo (`next`) ou branch `master`. A ideia é que seus branches estejam em vários níveis de estabilidade; quando eles atigem um nível mais estável, é feito o merge no branch acima deles.
+Você pode continuar fazendo isso em vários níveis de estabilidade. Alguns projetos grandes podem ter um branch 'sugerido' (`proposed`) ou 'sugestões atualizadas' (`pu`, proposed updates) que contém outros branches integrados que podem não estar prontos para ir para o próximo (`next`) ou branch `master`. A ideia é que seus branches estejam em vários níveis de estabilidade; quando eles atingem um nível mais estável, é feito o merge no branch acima deles.
 Repetindo, ter muitos branches de longa duração não é necessário, mas geralmente é útil, especialmente quando você está lidando com projetos muito grandes ou complexos.
 
-### Branches tópicos (topic) ###
+### Branches tópicos (topic branches) ###
 
 Branches tópicos, entretanto, são úteis em projetos de qualquer tamanho. Um branch tópico é um branch de curta duração que você cria e usa para uma funcionalidade ou trabalho relacionado. Isso é algo que você provavelmente nunca fez com um controle de versão antes porque é geralmente muito custoso criar e fazer merge de branches. Mas no Git é comum criar, trabalhar, mesclar e apagar branches muitas vezes ao dia.
 
-Você viu isso na seção anterior com os branches `iss53` e o `hotfix` que você criou. Você fez commits neles e os apagou depois que fez o merge com seu branch principal. Tecnicamente isso lhe permite mudar completamente e rapidamente o contexto — por seu trabalho estar separado em contêineres onde todas as modificações naquele branch estarem relacionadas ao tópico, é fácil ver o que aconteceu durante a revisão de código. Você pode manter as mudanças la por minutos, dias, ou meses, e mesclá-las quando estivem prontas, não importando a ordem que foram criadas ou trabalhadas.
+Você viu isso na seção anterior com os branches `iss53` e o `hotfix` que você criou. Você fez commits neles e os apagou depois que fez o merge com seu branch principal. Tecnicamente isso lhe permite mudar completamente e rapidamente o contexto — por seu trabalho estar separado em contêineres onde todas as modificações naquele branch estarem relacionadas ao tópico, é fácil ver o que aconteceu durante a revisão de código. Você pode manter as mudanças la por minutos, dias, ou meses, e mesclá-las quando estiverem prontas, não importando a ordem que foram criadas ou trabalhadas.
 
-Condisere um exemplo onde você está fazendo um trabalho (no `master`), cria um branch para um erro (`iss91`), trabalha nele um pouco, cria um segundo branch para testar uma nova maneira de resolver o mesmo problema (`iss91v2`), volta ao seu branch principal e trabalha nele por um tempo, e cria um novo branch para trabalhar em algo que você não tem certeza se é uma boa ideia (`dumbidea`). Seu histórico de commits irá se parecer com a Figura 3-20.
+Considere um exemplo onde você está fazendo um trabalho (no `master`), cria um branch para um erro (`iss91`), trabalha nele um pouco, cria um segundo branch para testar uma nova maneira de resolver o mesmo problema (`iss91v2`), volta ao seu branch principal e trabalha nele por um tempo, e cria um novo branch para trabalhar em algo que você não tem certeza se é uma boa ideia (`dumbidea`). Seu histórico de commits irá se parecer com a Figura 3-20.
 
 Insert 18333fig0320.png 
-Figura 3-20. Seu histórico de commits com multiplos branches tópicos.
+Figura 3-20. Seu histórico de commits com múltiplos branches tópicos.
 
 Agora, vamos dizer que você decidiu que sua segunda solução é a melhor para resolver o erro (`iss91v2`); e você mostrou seu branch `dumbidea` para seus colegas de trabalho, e ele é genial. Agora você pode jogar fora o branch original `iss91` (perdendo os commits C5 e C6) e fazer o merge dos dois restantes. Seu histórico irá se parecer com a Figura 3-21.
 
@@ -397,19 +397,19 @@ Para sincronizar suas coisas, você executa o comando `git fetch origin`. Esse c
 Insert 18333fig0324.png 
 Figura 3-24. O comando git fetch atualiza suas referências remotas.
 
-Para demostrar o uso de multiplos servidores remotos e como os branches remotos desses projetos remotos parecem, vamos assumir que você tem outro servidor Git interno que é usado somente para desenvolvimento por um de seus times. Este servidor está em `git.team1.ourcompany.com`. Você pode adicioná-lo como uma nova referência remota ao projeto que você está atualmente trabalhando executando o comando `git remote add` como discutimos no capítulo 2. Dê o nome de `teamone`, que será o apelido para aquela URL (veja Figura 3-25).
+Para demostrar o uso de múltiplos servidores remotos e como os branches remotos desses projetos remotos parecem, vamos assumir que você tem outro servidor Git interno que é usado somente para desenvolvimento por um de seus times. Este servidor está em `git.team1.ourcompany.com`. Você pode adicioná-lo como uma nova referência remota ao projeto que você está atualmente trabalhando executando o comando `git remote add` como discutimos no capítulo 2. Dê o nome de `teamone`, que será o apelido para aquela URL (veja Figura 3-25).
 
 Insert 18333fig0325.png 
 Figura 3-25. Adicionando outro servidor remoto.
 
-Agora, você pode executar o comando `git fetch teamone` para obter tudo que o servidor tem e você ainda não. Por esse servidor ter um subcojunto dos dados que seu servidor `origin` tem, Git não obtém nenhum dados, somente cria um branch chamado `teamone/master` que faz referência ao commit que `teamone` tem no `master` dele (veja Figura 3-26).
+Agora, você pode executar o comando `git fetch teamone` para obter tudo que o servidor tem e você ainda não. Por esse servidor ter um subconjunto dos dados que seu servidor `origin` tem, Git não obtém quaisquer dados, somente cria um branch chamado `teamone/master` que faz referência ao commit que `teamone` tem no `master` dele (veja Figura 3-26).
 
 Insert 18333fig0326.png 
 Figura 3-26. Você consegue uma referência local para a posição do branch master do teamone.
 
 ### Enviando (Pushing) ###
 
-Quando você quer compatilhar um branch com o mundo, você precisa enviá-lo a um servidor remoto que você tem acesso. Seus branches locais não são automaticamente sincronizados com os remotos - você tem que explicitamente enviar (push) os branches que quer compartilhar. Desta maneira, você pode usar branches privados para o trabalho que não quer compartilhar, e enviar somente os branches tópicos que quer colaboração.
+Quando você quer compartilhar um branch com o mundo, você precisa enviá-lo a um servidor remoto que você tem acesso. Seus branches locais não são automaticamente sincronizados com os remotos - você tem que explicitamente enviar (push) os branches que quer compartilhar. Desta maneira, você pode usar branches privados para o trabalho que não quer compartilhar, e enviar somente os branches tópicos que quer colaboração.
 
 Se você tem um branch chamado `serverfix` e quer trabalhar com outros, você pode enviá-lo da mesma forma que enviou seu primeiro branch. Execute o comando `git push (remote) (branch)`:
 
@@ -423,7 +423,7 @@ Se você tem um branch chamado `serverfix` e quer trabalhar com outros, você po
 
 Isso é um atalho. O Git automaticamente expande o branch `serverfix` para `refs/heads/serverfix:refs/heads/serverfix`, que quer dizer, "pegue meu branch local serverfix e envie para atualizar o branch serverfix no servidor remoto". Nós vamos ver a parte de `refs/heads/` em detalhes no capítulo 9, mas em geral você pode deixar assim. Você pode executar também `git push origin serverfix:serverfix`, que faz a mesma coisa - é como, "pegue meu serverfix e o transforme no serverfix remoto". Você pode usar esse formato para enviar (push) um branch local para branch remoto que tem nome diferente. Se você não quer chamá-lo de serverfix no remoto, você pode executar `git push origin serverfix:awesomebranch` para enviar seu branch local `serverfix` para o branch `awesomebranch` no projeto remoto.
 
-Na próxima vez que um dos seus colaboradores obter dados do servidor, eles irão ter uma referência para onde a versão do servidor de serverfix está no branch remoto `origin/serverfix`:
+Na próxima vez que um dos seus colaboradores obtiver dados do servidor, eles irão ter uma referência para onde a versão do servidor de serverfix está no branch remoto `origin/serverfix`:
 
 	$ git fetch origin
 	remote: Counting objects: 20, done.
@@ -433,7 +433,7 @@ Na próxima vez que um dos seus colaboradores obter dados do servidor, eles irã
 	From git@github.com:schacon/simplegit
 	 * [new branch]      serverfix    -> origin/serverfix
 
-É importante notar que quando você obtém dados que traz novos branches remotos, você não tem automaticamente copias locais e editáveis. Em outras palavras, nesse caso, você não tem um novo branch `serverfix` — você tem somente uma referência a `origin/serverfix` que você não pode modificar.
+É importante notar que quando você obtém dados que trazem novos branches remotos, você não tem automaticamente copias locais e editáveis. Em outras palavras, nesse caso, você não tem um novo branch `serverfix` — você tem somente uma referência a `origin/serverfix` que você não pode modificar.
 
 Para fazer o merge desses dados no branch que você está trabalhando, você pode executar o comando `git merge origin/serverfix`. Se você quer seu próprio branch `serverfix` para trabalhar, você pode se basear no seu branch remoto:
 
@@ -514,12 +514,12 @@ Note que o snapshot apontado pelo o commit final, o último commit dos que viera
 
 ### Rebases mais interessantes ###
 
-Você também pode fazer o rebase em um local diferente do branch de rebase. Veja o histórico na Figura 3-31, por exemplo. Você criou um branch tópico (`server`) no seu projeto para adicionar uma funcionalidade no lador do servidor e fez o commit. Então, você criou outro branch para fazer mudanças no lado do cliente (`client`) e fez alguns commits. Finalmente, você voltou ao ser branch server e fez mais alguns commits.
+Você também pode fazer o rebase em um local diferente do branch de rebase. Veja o histórico na Figura 3-31, por exemplo. Você criou um branch tópico (`server`) no seu projeto para adicionar uma funcionalidade no lado do servidor e fez o commit. Então, você criou outro branch para fazer mudanças no lado do cliente (`client`) e fez alguns commits. Finalmente, você voltou ao ser branch server e fez mais alguns commits.
 
 Insert 18333fig0331.png 
 Figura 3-31. Histórico com um branch tópico a partir de outro
 
-Digamos que você decide fazer um merge das mudanças entre seu branch com mudanças do lado do cliente na linha de trabalho principal para lançar uma versão, mas quer segurar as mudanças do lado do servidor até que elas sejam testadas mais. Você pode pegar as mudanças que não estão no servidor (C8 e C9) e incluí-las nos seu branch master usando a opção `--onto` option of `git rebase`:
+Digamos que você decide fazer um merge das mudanças entre seu branch com mudanças do lado do cliente na linha de trabalho principal para lançar uma versão, mas quer segurar as mudanças do lado do servidor até que elas sejam testadas mais. Você pode pegar as mudanças que não estão no servidor (C8 e C9) e incluí-las nos seu branch master usando a opção `--onto` do `git rebase`:
 
 	$ git rebase --onto master server client
 
@@ -550,7 +550,7 @@ Em seguida, você pode avançar seu branch base (`master`):
 	$ git checkout master
 	$ git merge server
 
-Você pode apagar os branches `client` e `server` pois todo o trabalho ja foi integrado e você não precisa mais deles, deixando seu histórico de todo esse processo parecendo com a Figura 3-35:
+Você pode apagar os branches `client` e `server` pois todo o trabalho já foi integrado e você não precisa mais deles, deixando seu histórico de todo esse processo parecendo com a Figura 3-35:
 
 	$ git branch -d client
 	$ git branch -d server
@@ -560,38 +560,38 @@ Figura 3-35. Histórico final de commits.
 
 ### Os perigos do Rebase ###
 
-Ahh, mas apesar dos beneficios do rebase existem os incovenientes, que podem ser resumidos em um linha:
+Ahh, mas apesar dos beneficios do rebase existem os inconvenientes, que podem ser resumidos em uma linha:
 
-**Não faça rebase de commits que você enviou para um reposítorio público.**
+**Não faça rebase de commits que você enviou para um reposítório público.**
 
 Se você seguir essa regra você ficará bem. Se não seguir, as pessoas odiarão você, e você será desprezado por amigos e familiares.
 
-Quando você faz o rebase, você está abandonando commits existentes e criando novos que são similares mas diferentes. Se fizer o push de commits em algum lugar e outros pegarem e fazerem trabalho baseado neles, e você reescreve esses commits com `git rebase` e faz o push novamente, seus colaborares terão que fazer o merge novamente do trabalho deles e as coisas ficarão bagunçadas quando você tentar trazer o trabalho deles de volta para o seu.
+Quando você faz o rebase, você está abandonando commits existentes e criando novos que são similares mas diferentes. Se fizer o push de commits em algum lugar e outros pegarem e fizerem trabalho baseado neles, e você reescreve esses commits com `git rebase` e fizer o push novamente, seus colaborares terão que fazer o merge novamente do trabalho deles e as coisas ficarão bagunçadas quando você tentar trazer o trabalho deles de volta para o seu.
 
 Vamos ver um exemplo de como o rebase trabalha e dos problemas que podem ser causados quando você torna algo público. Digamos que você faça o clone de um servidor central e faça algum trabalho em cima dele. Seu histórico de commits parece com a Figura 3-36.
 
 Insert 18333fig0336.png 
 Figura 3-36. Clone de um repositório e trabalho a partir dele.
 
-Agora, outra pessoa faz modificações que inclui um merge, e envia (push) esse trabalho para o servidor central. Você o obtem e faz o merge do novo branch remoto no seu trabalho, fazendo com que seu histórico fique como na Figura 3-37.
+Agora, outra pessoa faz modificações que inclui um merge, e envia (push) esse trabalho para o servidor central. Você o obtém e faz o merge do novo branch remoto no seu trabalho, fazendo com que seu histórico fique como na Figura 3-37.
 
 Insert 18333fig0337.png 
-Figura 3-37. Obtem mais commits e faz o merge deles no seu trabalho.
+Figura 3-37. Obtém mais commits e faz o merge deles no seu trabalho.
 
-Em seguida, a pessoa que envio o merge voltou atrás e fez o rebase do seu do seu trabalho; eles executam `git push --force` para sobrescrever o histórico no servidor. Você então obtém os dados do servidor, trazendo os novos commits.
+Em seguida, a pessoa que envio o merge voltou atrás e fez o rebase do seu trabalho; eles executam `git push --force` para sobrescrever o histórico no servidor. Você então obtém os dados do servidor, trazendo os novos commits.
 
 Insert 18333fig0338.png 
 Figura 3-38. Alguém envia commits com rebase, abandonando os commits que você usou como base para o seu trabalho.
 
-Nesse ponto, você tem que fazer o merge dessas modificações novamente, mesmo que você ja o tenha feito. Fazer o rebase muda o código hash SHA-1 desses commits então para o Git eles são commits novos, porém você ja tem as modificações de C4 no seu histórico (veja Figura 3-39).
+Nesse ponto, você tem que fazer o merge dessas modificações novamente, mesmo que você já o tenha feito. Fazer o rebase muda o código hash SHA-1 desses commits então para o Git eles são commits novos, porém você já tem as modificações de C4 no seu histórico (veja Figura 3-39).
 
 Insert 18333fig0339.png 
 Figura 3-39. Você faz o merge novamente das mesmas coisas em um novo commit.
 
-Você tem que fazer o merge desse trabalho em algum momento para se manter atualizado em relação ao outro desenvolvedor no futuro. Depois de fazer isso, seu histórico de commits terá tanto o commit C4 quanto C4', que tem código hash SHA-1 diferentes mas tem as mesmas modificações e a mesma mensagem de commit. Se você executar `git log` quando seu histórico está dessa forma, você verá dois commits que terão o mesmo autor, data e mensagem, que será confuso. Além disso, se você enviar (push) esses histórico de volta ao servidor, você irá inserir novamente todos esses commits com rebase no servidor central, o que pode mais tarde confudir as pessoas.
+Você tem que fazer o merge desse trabalho em algum momento para se manter atualizado em relação ao outro desenvolvedor no futuro. Depois de fazer isso, seu histórico de commits terá tanto o commit C4 quanto C4', que tem código hash SHA-1 diferentes mas tem as mesmas modificações e a mesma mensagem de commit. Se você executar `git log` quando seu histórico está dessa forma, você verá dois commits que terão o mesmo autor, data e mensagem, que será confuso. Além disso, se você enviar (push) esses histórico de volta ao servidor, você irá inserir novamente todos esses commits com rebase no servidor central, o que pode mais tarde confundir as pessoas.
 
-Se você tratar o rebase como uma maneira de manter limpo e trabalhar com commits antes de enviá-los, e se você faz somente rebase de commits que nunca foram disponíveis publicamente, você ficará bem. Se você faz o rebase de commits que já foram enviados publicamente, e as pessoas podem ter se baseado neles para o trabalho delas, então você poderá ter problemas frustrantes.
+Se você tratar o rebase como uma maneira de manter limpo e trabalhar com commits antes de enviá-los, e se você faz somente rebase de commits que nunca foram disponibilizados publicamente, você ficará bem. Se você faz o rebase de commits que já foram disponibilizados publicamente, e as pessoas podem ter se baseado neles para o trabalho delas, então você poderá ter problemas frustrantes.
 
 ## Sumário ##
 
-Nós abrangemos o básico do branch e merge no Git. Você deve ser sentir confortável criar e mudar para novos branches, mudar entre branches e fazer o merge de branches locais. Você deve ser capaz de compartilhar seus branches enviando eles a um servidor compartilhado, trabalhar com outros em branches compartilhados e fazer o rebase de seus branches antes de compartilhá-los.
+Nós abrangemos o básico do branch e merge no Git. Você deve ser sentir confortável para criar novos branches, mudar entre branches e fazer o merge de branches locais. Você deve ser capaz de compartilhar seus branches enviando eles a um servidor compartilhado, trabalhar com outros em branches compartilhados e fazer o rebase de seus branches antes de compartilhá-los.
